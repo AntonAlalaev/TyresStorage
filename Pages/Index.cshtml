@@ -1,0 +1,274 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Управление секциями";
+}
+
+<style>
+    body {
+        font-size: 1rem; /* уменьшили базовый шрифт */
+    }
+    .table th, .table td {
+        vertical-align: middle;
+        padding: 0.3rem 0.4rem; /* уменьшили отступы */
+        font-size: 0.9rem;
+    }
+    .table th {
+        text-align: center;
+        background-color: #343a40;
+        color: white;
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+    /* Поля ввода */
+    .input-lg-sensor {
+        height: 36px;
+        width: 60px; /* меньше */
+        font-size: 1.4rem;
+        text-align: center;
+        border-radius: 6px;
+        border: 2px solid #ced4da;
+        padding: 0;
+    }
+    /* Кнопки +/- */
+    .btn-plusminus {
+        width: 36px;
+        height: 36px;
+        font-size: 1.6rem;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        line-height: 1;
+        border: 2px solid #6c757d;
+        background: #f8f9fa;
+        color: #212529;
+        transition: 0.2s;
+        user-select: none;
+        touch-action: manipulation;
+    }
+    .btn-plusminus:active {
+        background: #dee2e6;
+    }
+    /* Кнопки действий */
+    .btn-action {
+        font-size: 0.9rem;
+        padding: 0.3rem 0.6rem;
+        min-height: 36px;
+        min-width: 60px;
+    }
+    .btn-start {
+        min-width: 70px;
+    }
+    .btn-status {
+        min-width: 56px;
+    }
+    /* Убрать стрелки в input[type=number] */
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+    /* Даты в компактном стиле */
+    .date-cell {
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+    /* Уменьшаем отступы контейнера */
+    .container {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    h1 {
+        font-size: 1.8rem;
+        margin: 0.5rem 0;
+    }
+</style>
+
+<h1 class="text-center my-2">Управление секциями</h1>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover table-bordered" id="devicesTable">
+        <thead>
+            <tr>
+                <th style="width:5%;">ID</th>
+                <th style="width:8%;">IP</th>
+                <th style="width:18%;">Время</th>
+                <th style="width:18%;">Период</th>
+                <th style="width:14%;">Посл. запуск</th>
+                <th style="width:14%;">След. запуск</th>
+                <th style="width:9%;">Статус</th>
+                <th style="width:14%;">Действие</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var device in Model.Devices)
+            {
+                <tr data-device-id="@device.Id">
+                    <td class="text-center"><strong>@device.Id</strong></td>
+                    <td>@device.IpAddress</td>
+                    <!-- Время работы (сек) -->
+                    <td>
+                        <div class="d-flex align-items-center gap-1" style="flex-wrap:nowrap;">
+                            <input type="hidden" class="device-id" value="@device.Id" />
+                            <button class="btn-plusminus btn-duration" data-delta="-1">−</button>
+                            <input type="number" class="input-lg-sensor input-duration" 
+                                   value="@device.DurationSeconds" min="1" required />
+                            <button class="btn-plusminus btn-duration" data-delta="1">+</button>
+                        </div>
+                    </td>
+                    <!-- Период (дни) -->
+                    <td>
+                        <div class="d-flex align-items-center gap-1" style="flex-wrap:nowrap;">
+                            <input type="hidden" class="device-id" value="@device.Id" />
+                            <button class="btn-plusminus btn-period" data-delta="-1">−</button>
+                            <input type="number" class="input-lg-sensor input-period" 
+                                   value="@device.PeriodDays" min="0" step="1" required />
+                            <button class="btn-plusminus btn-period" data-delta="1">+</button>
+                        </div>
+                    </td>
+                    <td class="text-center date-cell last-run">@(device.LastRun?.ToString("dd.MM HH:mm") ?? "—")</td>
+                    <td class="text-center date-cell next-run">@(device.NextRun?.ToString("dd.MM HH:mm") ?? "—")</td>
+                    <td class="text-center">
+                        <button class="btn btn-action btn-status btn-toggle-enabled @(device.IsEnabled ? "btn-success" : "btn-secondary")" 
+                                data-device-id="@device.Id">
+                            @(device.IsEnabled ? "Вкл" : "Выкл")
+                        </button>
+                    </td>
+                    <td class="text-center">
+                        <button class="btn btn-danger btn-action btn-start-now" data-device-id="@device.Id">Пуск</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="mt-2">
+    <p class="small"><strong>Примечание:</strong> Изменение периода пересчитывает следующее время запуска от последнего запуска (если был).</p>
+    <p class="small">Автоматическая проверка запусков происходит каждые 30 секунд.</p>
+</div>
+
+@section Scripts {
+    <script>
+        $(function() {
+            // Функция отправки AJAX
+            function sendUpdate(deviceId, url, data, successCallback) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: data,
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                    success: function(response) {
+                        if (response.success) {
+                            var row = $('tr[data-device-id="' + deviceId + '"]');
+                            if (response.device.lastRun) {
+                                row.find('.last-run').text(formatDate(response.device.lastRun));
+                            } else {
+                                row.find('.last-run').text('—');
+                            }
+                            if (response.device.nextRun) {
+                                row.find('.next-run').text(formatDate(response.device.nextRun));
+                            } else {
+                                row.find('.next-run').text('—');
+                            }
+                            if (response.device.durationSeconds !== undefined) {
+                                row.find('.input-duration').val(response.device.durationSeconds);
+                            }
+                            if (response.device.periodDays !== undefined) {
+                                row.find('.input-period').val(response.device.periodDays);
+                            }
+                            if (response.device.isEnabled !== undefined) {
+                                var btn = row.find('.btn-toggle-enabled');
+                                btn.text(response.device.isEnabled ? 'Вкл' : 'Выкл');
+                                btn.removeClass('btn-success btn-secondary');
+                                btn.addClass(response.device.isEnabled ? 'btn-success' : 'btn-secondary');
+                            }
+                            if (successCallback) successCallback(response);
+                        } else {
+                            alert('Ошибка: ' + (response.error || 'Неизвестная ошибка'));
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX error:', status, error, xhr.responseText);
+                        alert('Ошибка соединения с сервером.\nСтатус: ' + status + '\nТекст: ' + error);
+                    }
+                });
+            }
+
+            function formatDate(dateStr) {
+                if (!dateStr) return '—';
+                var d = new Date(dateStr);
+                if (isNaN(d)) return dateStr;
+                var dd = ('0' + d.getDate()).slice(-2);
+                var MM = ('0' + (d.getMonth()+1)).slice(-2);
+                var HH = ('0' + d.getHours()).slice(-2);
+                var mm = ('0' + d.getMinutes()).slice(-2);
+                return dd + '.' + MM + ' ' + HH + ':' + mm;
+            }
+
+            // --- Обработчики с исправленными URL ---
+            $('.btn-duration').on('click', function() {
+                var btn = $(this);
+                var delta = parseInt(btn.data('delta'));
+                var container = btn.closest('td');
+                var input = container.find('input[type="number"]');
+                var deviceId = container.find('.device-id').val();
+                var current = parseInt(input.val()) || 0;
+                var newVal = current + delta;
+                var min = input.attr('min') ? parseInt(input.attr('min')) : null;
+                if (min !== null && newVal < min) newVal = min;
+                input.val(newVal);
+                sendUpdate(deviceId, '/?handler=UpdateDuration', { id: deviceId, duration: newVal });
+            });
+
+            $('.btn-period').on('click', function() {
+                var btn = $(this);
+                var delta = parseInt(btn.data('delta'));
+                var container = btn.closest('td');
+                var input = container.find('input[type="number"]');
+                var deviceId = container.find('.device-id').val();
+                var current = parseInt(input.val()) || 0;
+                var newVal = current + delta;
+                var min = input.attr('min') ? parseInt(input.attr('min')) : null;
+                if (min !== null && newVal < min) newVal = min;
+                input.val(newVal);
+                sendUpdate(deviceId, '/?handler=UpdatePeriod', { id: deviceId, periodDays: newVal });
+            });
+
+            $('.input-duration').on('change', function() {
+                var input = $(this);
+                var deviceId = input.closest('td').find('.device-id').val();
+                var val = parseInt(input.val()) || 1;
+                if (val < 1) val = 1;
+                input.val(val);
+                sendUpdate(deviceId, '/?handler=UpdateDuration', { id: deviceId, duration: val });
+            });
+
+            $('.input-period').on('change', function() {
+                var input = $(this);
+                var deviceId = input.closest('td').find('.device-id').val();
+                var val = parseInt(input.val()) || 1;
+                if (val < 1) val = 1;
+                input.val(val);
+                sendUpdate(deviceId, '/?handler=UpdatePeriod', { id: deviceId, periodDays: val });
+            });
+
+            $('.btn-toggle-enabled').on('click', function() {
+                var btn = $(this);
+                var deviceId = btn.data('device-id');
+                sendUpdate(deviceId, '/?handler=ToggleEnabled', { id: deviceId });
+            });
+
+            $('.btn-start-now').on('click', function() {
+                var btn = $(this);
+                var deviceId = btn.data('device-id');
+                sendUpdate(deviceId, '/?handler=StartNow', { id: deviceId });
+            });
+        });
+    </script>
+}
