@@ -2,181 +2,181 @@
   {
     "Id": 1,
     "IpAddress": "192.168.1.101",
-    "DurationSeconds": 29,
-    "PeriodDays": 105,
+    "DurationSeconds": 15,
+    "PeriodDays": 100,
     "LastRun": "2026-07-31T17:04:29.5825566+05:00",
-    "NextRun": "2026-11-13T17:04:29.5825566+05:00",
+    "NextRun": "2026-11-08T17:04:29.5825566+05:00",
     "IsEnabled": true,
-    "Period": "105.00:00:00"
+    "Period": "100.00:00:00"
   },
   {
     "Id": 2,
     "IpAddress": "192.168.1.102",
     "DurationSeconds": 30,
-    "PeriodDays": 5,
+    "PeriodDays": 100,
     "LastRun": "2026-07-31T15:29:54.0918723+05:00",
-    "NextRun": "2026-08-05T15:29:54.0918723+05:00",
+    "NextRun": "2026-11-08T15:29:54.0918723+05:00",
     "IsEnabled": true,
-    "Period": "5.00:00:00"
+    "Period": "100.00:00:00"
   },
   {
     "Id": 3,
     "IpAddress": "192.168.1.103",
     "DurationSeconds": 30,
-    "PeriodDays": 5,
+    "PeriodDays": 100,
     "LastRun": "2026-07-30T18:07:06.6337743+05:00",
-    "NextRun": "2026-08-04T18:07:06.6337743+05:00",
+    "NextRun": "2026-11-07T18:07:06.6337743+05:00",
     "IsEnabled": true,
-    "Period": "5.00:00:00"
+    "Period": "100.00:00:00"
   },
   {
     "Id": 4,
     "IpAddress": "192.168.1.104",
     "DurationSeconds": 30,
-    "PeriodDays": 2,
+    "PeriodDays": 100,
     "LastRun": "2026-07-31T17:03:20.6247427+05:00",
-    "NextRun": "2026-08-02T17:03:20.6247427+05:00",
+    "NextRun": "2026-11-08T17:03:20.6247427+05:00",
     "IsEnabled": true,
-    "Period": "2.00:00:00"
+    "Period": "100.00:00:00"
   },
   {
     "Id": 5,
     "IpAddress": "192.168.1.105",
     "DurationSeconds": 30,
-    "PeriodDays": 3,
+    "PeriodDays": 100,
     "LastRun": "2026-07-31T16:58:36.9327767+05:00",
-    "NextRun": "2026-08-03T16:58:36.9327767+05:00",
+    "NextRun": "2026-11-08T16:58:36.9327767+05:00",
     "IsEnabled": true,
-    "Period": "3.00:00:00"
+    "Period": "100.00:00:00"
   },
   {
     "Id": 6,
     "IpAddress": "192.168.1.106",
     "DurationSeconds": 30,
-    "PeriodDays": 1,
+    "PeriodDays": 100,
     "LastRun": "2026-07-31T15:31:22.6477148+05:00",
-    "NextRun": "2026-08-01T15:31:22.6477148+05:00",
+    "NextRun": "2026-11-08T15:31:22.6477148+05:00",
     "IsEnabled": true,
-    "Period": "1.00:00:00"
+    "Period": "100.00:00:00"
   },
   {
     "Id": 7,
     "IpAddress": "192.168.1.107",
     "DurationSeconds": 30,
-    "PeriodDays": 5,
+    "PeriodDays": 100,
     "LastRun": "2026-07-30T18:07:08.9319245+05:00",
-    "NextRun": "2026-07-31T18:07:08.9319245+05:00",
+    "NextRun": "2026-11-07T18:07:08.9319245+05:00",
     "IsEnabled": true,
-    "Period": "5.00:00:00"
+    "Period": "100.00:00:00"
   },
   {
     "Id": 8,
     "IpAddress": "192.168.1.108",
     "DurationSeconds": 30,
-    "PeriodDays": 10,
+    "PeriodDays": 100,
     "LastRun": "2026-07-31T17:01:32.0202372+05:00",
-    "NextRun": "2026-08-10T17:01:32.0202372+05:00",
+    "NextRun": "2026-11-08T17:01:32.0202372+05:00",
     "IsEnabled": true,
-    "Period": "10.00:00:00"
+    "Period": "100.00:00:00"
   },
   {
     "Id": 9,
     "IpAddress": "192.168.1.109",
     "DurationSeconds": 30,
-    "PeriodDays": 1,
+    "PeriodDays": 100,
     "LastRun": "2026-07-30T18:01:51.4647368+05:00",
-    "NextRun": "2026-07-31T18:01:51.4647368+05:00",
+    "NextRun": "2026-11-07T18:01:51.4647368+05:00",
     "IsEnabled": true,
-    "Period": "1.00:00:00"
+    "Period": "100.00:00:00"
   },
   {
     "Id": 10,
     "IpAddress": "192.168.1.110",
-    "DurationSeconds": 15,
-    "PeriodDays": 1,
+    "DurationSeconds": 30,
+    "PeriodDays": 100,
     "LastRun": "2026-07-30T18:07:10.4257228+05:00",
-    "NextRun": "2026-07-31T18:07:10.4257228+05:00",
+    "NextRun": "2026-11-07T18:07:10.4257228+05:00",
     "IsEnabled": true,
-    "Period": "1.00:00:00"
+    "Period": "100.00:00:00"
   },
   {
     "Id": 11,
     "IpAddress": "192.168.1.111",
-    "DurationSeconds": 25,
-    "PeriodDays": 1,
+    "DurationSeconds": 30,
+    "PeriodDays": 100,
     "LastRun": "2026-07-30T18:07:11.1103625+05:00",
-    "NextRun": "2026-07-31T18:07:11.1103625+05:00",
+    "NextRun": "2026-11-07T18:07:11.1103625+05:00",
     "IsEnabled": true,
-    "Period": "1.00:00:00"
+    "Period": "100.00:00:00"
   },
   {
     "Id": 12,
     "IpAddress": "192.168.1.112",
-    "DurationSeconds": 25,
-    "PeriodDays": 1,
+    "DurationSeconds": 30,
+    "PeriodDays": 100,
     "LastRun": "2026-07-30T18:07:12.3802337+05:00",
-    "NextRun": "2026-07-31T18:07:12.3802337+05:00",
+    "NextRun": "2026-11-07T18:07:12.3802337+05:00",
     "IsEnabled": true,
-    "Period": "1.00:00:00"
+    "Period": "100.00:00:00"
   },
   {
     "Id": 13,
     "IpAddress": "192.168.1.113",
-    "DurationSeconds": 25,
-    "PeriodDays": 1,
+    "DurationSeconds": 30,
+    "PeriodDays": 100,
     "LastRun": "2026-07-30T18:07:13.1166796+05:00",
-    "NextRun": "2026-07-31T18:07:13.1166796+05:00",
+    "NextRun": "2026-11-07T18:07:13.1166796+05:00",
     "IsEnabled": true,
-    "Period": "1.00:00:00"
+    "Period": "100.00:00:00"
   },
   {
     "Id": 14,
     "IpAddress": "192.168.1.114",
-    "DurationSeconds": 13,
-    "PeriodDays": 1,
+    "DurationSeconds": 30,
+    "PeriodDays": 100,
     "LastRun": "2026-07-30T18:07:15.5720887+05:00",
-    "NextRun": "2026-07-31T18:07:15.5720887+05:00",
+    "NextRun": "2026-11-07T18:07:15.5720887+05:00",
     "IsEnabled": true,
-    "Period": "1.00:00:00"
+    "Period": "100.00:00:00"
   },
   {
     "Id": 15,
     "IpAddress": "192.168.1.115",
-    "DurationSeconds": 10,
-    "PeriodDays": 1,
+    "DurationSeconds": 30,
+    "PeriodDays": 100,
     "LastRun": "2026-07-31T15:30:04.6977318+05:00",
-    "NextRun": "2026-08-01T15:30:04.6977318+05:00",
+    "NextRun": "2026-11-08T15:30:04.6977318+05:00",
     "IsEnabled": true,
-    "Period": "1.00:00:00"
+    "Period": "100.00:00:00"
   },
   {
     "Id": 16,
     "IpAddress": "192.168.1.116",
-    "DurationSeconds": 10,
-    "PeriodDays": 1,
+    "DurationSeconds": 30,
+    "PeriodDays": 100,
     "LastRun": "2026-07-30T18:07:19.3130206+05:00",
-    "NextRun": "2026-07-31T18:07:19.3130206+05:00",
+    "NextRun": "2026-11-07T18:07:19.3130206+05:00",
     "IsEnabled": true,
-    "Period": "1.00:00:00"
+    "Period": "100.00:00:00"
   },
   {
     "Id": 17,
     "IpAddress": "192.168.1.117",
-    "DurationSeconds": 38,
-    "PeriodDays": 110,
+    "DurationSeconds": 30,
+    "PeriodDays": 100,
     "LastRun": "2026-07-30T18:07:20.0828958+05:00",
-    "NextRun": "2026-11-17T18:07:20.0828958+05:00",
+    "NextRun": "2026-11-07T18:07:20.0828958+05:00",
     "IsEnabled": true,
-    "Period": "110.00:00:00"
+    "Period": "100.00:00:00"
   },
   {
     "Id": 18,
     "IpAddress": "192.168.1.118",
-    "DurationSeconds": 20,
-    "PeriodDays": 10,
+    "DurationSeconds": 30,
+    "PeriodDays": 100,
     "LastRun": "2026-07-30T18:14:38.9719802+05:00",
-    "NextRun": "2026-08-09T18:14:38.9719802+05:00",
+    "NextRun": "2026-11-07T18:14:38.9719802+05:00",
     "IsEnabled": true,
-    "Period": "10.00:00:00"
+    "Period": "100.00:00:00"
   }
 ]

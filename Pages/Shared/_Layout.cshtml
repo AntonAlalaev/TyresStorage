@@ -12,7 +12,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">TyresStorage</a>
+                <a class="navbar-brand" asp-area="" asp-page="/Index">🛞Tyres Storage</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -20,12 +20,18 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">✅ Главная</a>
                         </li>
                          <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Help">Справка</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Help">❔Справка</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/DateTime">⏰ Время</a>
                         </li>
                     </ul>
+                    <span class="navbar-text ms-auto" id="liveClock" style="font-size:1.3rem; font-weight:bold; color:#0d6efd;">
+                        <!-- здесь будет время  обновляться через JavaScript -->
+                    </span>
                 </div>
             </div>
         </nav>
@@ -45,6 +51,20 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    <!-- здесь будет время -->
+    <script>
+        function updateClock() {
+            fetch('/DateTime?handler=CurrentTime')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('liveClock').textContent = data;
+                })
+                .catch(() => {});
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
