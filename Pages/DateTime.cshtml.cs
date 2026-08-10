@@ -66,7 +66,7 @@ namespace TyresStorage.Pages
             try
             {
                 _logger.LogInformation($"Setting system time to {dateTimeString}");
-                var (output, error) = await ExecuteBashCommand(command);
+                var (output, error) = await ExecuteTimedatectl(dateTimeString); //ExecuteBashCommand(command);
 
                 if (!string.IsNullOrEmpty(error) && !error.Contains("Warning", StringComparison.OrdinalIgnoreCase))
                 {
@@ -131,6 +131,62 @@ namespace TyresStorage.Pages
             await process.WaitForExitAsync();
             return (output, error);
         }
+
+        private async Task<(string output, string error)> ExecuteTimedatectl(string dateTimeString)
+        {
+            var process = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    // Запускаем sudo напрямую, а не через bash
+                    FileName = "sudo",
+                    // Передаем аргументы списком. Кавычки вокруг даты больше НЕ НУЖНЫ!
+                    ArgumentList = { "timedatectl", "set-time", dateTimeString },
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                }
+            };
+
+            // Безопасно запускаем первый процесс
+            if (process.Start())
+            {
+                string output = await process.StandardOutput.ReadToEndAsync();
+                string error = await process.StandardError.ReadToEndAsync();
+                await process.WaitForExitAsync();
+
+                // Если время установилось, синхронизируем RTC отдельным процессом
+                if (process.ExitCode == 0)
+                {
+                    var hwClockProcess = Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "sudo",
+                        ArgumentList = { "hwclock", "-w" },
+                        CreateNoWindow = true
+                    });
+
+                    // Вариант 2: Явная проверка на null для hwclock
+                    if (hwClockProcess != null)
+                    {
+                        await hwClockProcess.WaitForExitAsync();
+                    }
+                    else
+                    {
+                        _logger.LogError("Не удалось запустить процесс hwclock для синхронизации RTC.");
+                    }
+                }
+
+                return (output, error);
+            }
+            else
+            {
+                const string launchError = "Не удалось запустить команду timedatectl.";
+                _logger.LogError(launchError);
+                return (string.Empty, launchError);
+            }
+        }
+
 
         // AJAX-метод для получения текущего времени системы (в локальном часовом поясе)
         public IActionResult OnGetCurrentTime()
