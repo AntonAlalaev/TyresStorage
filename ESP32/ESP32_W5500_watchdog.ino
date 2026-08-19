@@ -13,7 +13,7 @@
 #include "esp_task_wdt.h"  // для Watchdog
 
 // ===== Управление отладочным выводом =====
-bool serialEnabled = true;  // true – вывод в Serial включён (ожидание 15 сек), false – автономно
+bool serialEnabled = false;  // true – вывод в Serial включён (ожидание 15 сек), false – автономно
 
 #define DEBUG_PRINT(x) \
   do { \
@@ -37,8 +37,8 @@ bool serialEnabled = true;  // true – вывод в Serial включён (о�
 #define RELAY_ACTIVE_HIGH false  // реле включается при LOW
 
 // ===== Настройка сети =====
-byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
-IPAddress ip(192, 168, 1, 101);
+byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0x18 }; // менять можно только последние 3 байта (в данном проекте - можно только последний )
+IPAddress ip(192, 168, 1, 118); // менять IP Здесь
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
 
@@ -101,6 +101,10 @@ bool checkEthernetStatus() {
     DEBUG_PRINTLN("Check: W5500 hardware missing!");
     return false;
   }
+  // Проверяем, активен ли физический линк (подключение кабеля)
+  if (Ethernet.linkStatus() == LinkOFF) {
+    return false; 
+  }
   return true;
 }
 
@@ -109,8 +113,10 @@ void setup() {
   Serial.begin(115200);
   if (serialEnabled) {
     unsigned long startWait = millis();
-    while (!Serial && (millis() - startWait < 15000)) {
-      // ждём до 15 секунд
+    while (!Serial && (millis() - startWait < 5000)) {
+      // ждём до 5 секунд до включения Serial
+      // чтобы мусор туда не летел, делаем паузу в 0,1 сек после активации
+      delay(100);
     }
     if (!Serial) {
       serialEnabled = false;
@@ -199,6 +205,7 @@ void loop() {
               relayOnTime = millis();
               setRelay(true);
               relayActive = true;
+              delay(100); // чтобы не подвисала - при нагрузке реле
               DEBUG_PRINT("Relay ON for ");
               DEBUG_PRINT(sec);
               DEBUG_PRINTLN(" sec");
